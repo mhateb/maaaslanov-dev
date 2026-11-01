@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Golos Text Variable", system-ui, sans-serif;
+  --font-serif: "Lora Variable", Georgia, serif;
+  --font-hand: "Caveat", cursive;
+  --color-canvas: #111d25;
+  --color-ink: #f6f0e6;
+  --color-muted: #afbdbf;
+  --color-mint: #b9edd6;
+  --color-deep: #17292e;
+  --color-line: #354650;
+  --color-peach: #ffc3a3;
+  --color-surface: #1b2b35;
+  --color-sand: #e4dacd;
+  --color-lilac: #d4d7ee;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply m-0 bg-canvas font-sans text-ink; }
+  button { cursor: pointer; }
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+  section[id] { scroll-margin-top: 1rem; }
+}
+
+@layer components {
+  .layout-section { width: 100%; max-width: 1440px; margin-inline: auto; }
+  .pill { @apply inline-flex min-h-[42px] shrink-0 items-center justify-center rounded-full px-[18px] py-3 text-sm leading-[1.3] font-medium; }
+  .action-link, .pill { transition: filter 150ms, opacity 150ms; }
+  .action-link:hover, .pill:hover { filter: brightness(1.12); text-decoration: underline; text-underline-offset: 3px; }
+  .skip-link { @apply fixed top-3 left-3 z-50 -translate-y-30 rounded-lg bg-mint p-3 text-deep focus:translate-y-0; }
+  .portrait img { @apply h-full w-full object-cover object-top; }
+  .preview-dialog {
+    @apply m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl bg-mint p-6 text-deep;
+  }
+  .preview-dialog::backdrop { background: rgb(17 29 37 / 75%); }
+  .comparison {
+    --knob-size: 44px;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, var(--split)) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .comparison-side { min-width: 0; overflow: hidden; height: 100%; }
+  .comparison-side > div { min-width: min(140px, 48cqw); }
+  .comparison { container-type: inline-size; }
+  .comparison-divider {
+    position: absolute;
+    inset: 0 auto 0 var(--split);
+    width: 2px;
+    translate: -50%;
+    background: var(--color-deep);
+    pointer-events: none;
+  }
+  .comparison-handle, .comparison-knob {
+    position: absolute;
+    left: clamp(calc(var(--knob-size) / 2), var(--split), calc(100% - var(--knob-size) / 2));
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--knob-size);
+    height: var(--knob-size);
+    border-radius: 50%;
+  }
+  .comparison-handle { opacity: 0; z-index: 1; cursor: ew-resize; touch-action: none; }
+  .comparison-knob {
+    @apply grid place-items-center border-2 border-deep bg-peach text-xl font-medium text-deep;
+    pointer-events: none;
+  }
+  .comparison-handle:focus-visible + .comparison-knob {
+    outline: 3px solid var(--color-deep);
+    outline-offset: 3px;
+  }
+  .comparison-range {
+    appearance: none;
+    height: 4px;
+    border-radius: 20px;
+    background: var(--color-mint);
+    cursor: pointer;
+  }
+  .comparison-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-peach);
+    border: 1px solid var(--color-deep);
+  }
+  .comparison-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-peach);
+    border: 1px solid var(--color-deep);
+  }
+  .bg-mint > div > .comparison-range { background: var(--color-deep); }
+}
+
+@media (min-width: 48rem) and (max-width: 79.999rem) {
+  .layout-section { max-width: 800px; }
+}
+
+@media (min-width: 80rem) {
+  .comparison-large { --knob-size: 64px; }
+  .comparison-large .comparison-side > div { zoom: 1.8; min-width: 0; }
+}
+
+@media (max-width: 30rem) {
+  .comparison { --knob-size: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }
+}
+
+html[data-reduced-motion="true"] { scroll-behavior: auto; }
+html[data-reduced-motion="true"] *, html[data-reduced-motion="true"] *::before, html[data-reduced-motion="true"] *::after {
+  animation-duration: 0s !important;
+  transition-duration: 0s !important;
+}
+
+@media print {
+  body { color: #17292e; background: white; }
+  #root > :not(.resume-page), .resume-page button { display: none; }
+  .resume-page .layout-section { padding: 12px 0; overflow: visible; }
+  .resume-page :is(p, a, h1, h2, h3) { color: #17292e; }
+  .resume-page div { background: transparent; }
+  .resume-page .portrait { break-inside: avoid; }
+}
