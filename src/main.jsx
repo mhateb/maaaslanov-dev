@@ -7,6 +7,7 @@ import './styles.css'
 import { Layout } from './components/Layout'
 import { Link } from './components/Link'
 import { MotionProvider } from './components/Motion'
+import Home from './pages/Home'
 
 function NotFound() {
   return (
@@ -22,7 +23,7 @@ createRoot(document.getElementById('root')).render(
     <MotionProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<main id="main" className="layout-section px-6 py-20 xl:px-24"><h1>Дмитрий Масланов</h1></main>} />
+          <Route index element={<Home />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
