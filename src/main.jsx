@@ -8,6 +8,7 @@ import { Layout } from './components/Layout'
 import { Link } from './components/Link'
 import { MotionProvider } from './components/Motion'
 import Home from './pages/Home'
+import CaseStudy from './pages/CaseStudy'
 
 function NotFound() {
   return (
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="cases/x5-club" element={<CaseStudy />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
