@@ -10,6 +10,7 @@ import { MotionProvider } from './components/Motion'
 import Home from './pages/Home'
 import CaseStudy from './pages/CaseStudy'
 import Notes from './pages/Notes'
+import Resume from './pages/Resume'
 
 function NotFound() {
   return (
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
           <Route index element={<Home />} />
           <Route path="cases/x5-club" element={<CaseStudy />} />
           <Route path="notes" element={<Notes />} />
+          <Route path="resume" element={<Resume />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

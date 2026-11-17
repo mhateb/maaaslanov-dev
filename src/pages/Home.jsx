@@ -1,3 +1,4 @@
+import { ResumeDownload } from '../components/ResumeDownload'
 import { Link } from '../components/Link'
 import { Comparison, ComparisonViewport, ComparisonControls } from '../components/Comparison'
 import { ContactCopy, CopyEmail, CopyStatus } from '../components/ContactCopy'
@@ -36,6 +37,7 @@ function Hero() {
                   Смотреть проекты ↘
                 </p>
               </Link>
+              <ResumeDownload className="bg-canvas text-ink" />
             </div>
             <p className="font-sans font-normal leading-[1.3] relative shrink-0 text-muted text-[13px] w-full">
               8+ лет во фронтенде · Tech Lead в X5 Group
