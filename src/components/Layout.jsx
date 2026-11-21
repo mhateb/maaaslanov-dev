@@ -6,6 +6,7 @@ const navigation = [
   ['Проекты', '/#projects'],
   ['Опыт', '/#experience'],
   ['Заметки', '/notes'],
+  ['Резюме', '/resume'],
   ['Контакты', '/#contacts'],
 ]
 
