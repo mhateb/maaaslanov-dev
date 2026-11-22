@@ -1,7 +1,8 @@
 import { useLanguage } from '../../languageContext'
 import ResumeDownload from '../ResumeDownload'
 import Link from '../Link'
-import portrait from '../../assets/profile.jpg'
+import portrait from '../../assets/profile.webp'
+import LoadingImage from '../LoadingImage'
 
 const ResumeProfile = () => {
   const { t } = useLanguage()
@@ -32,7 +33,7 @@ const ResumeProfile = () => {
         <div className="flex gap-4 overflow-clip relative shrink-0 max-xl:items-center max-xl:w-full xl:flex-col xl:items-start xl:w-88">
           <div className="relative shrink-0 max-xl:h-33 max-xl:rounded-xl max-xl:w-25 xl:h-110 xl:rounded-[20px] xl:w-88 portrait">
             <div className="absolute inset-0 overflow-hidden pointer-events-none max-xl:rounded-xl xl:rounded-[20px]">
-              <img className="absolute left-0 max-w-none top-0 w-full max-xl:h-[135.96%] xl:h-[143.33%]" alt={t("Дмитрий Масланов", "Dmitry Maslanov")} src={portrait} />
+              <LoadingImage fetchPriority="high" className="absolute left-0 max-w-none top-0 w-full max-xl:h-[135.96%] xl:h-[143.33%]" alt={t("Дмитрий Масланов", "Dmitry Maslanov")} src={portrait} />
             </div>
           </div>
           <div className="flex flex-col gap-2 items-start leading-[1.35] overflow-clip relative max-xl:flex-[1_0_0] max-xl:min-w-px xl:shrink-0 xl:w-full">

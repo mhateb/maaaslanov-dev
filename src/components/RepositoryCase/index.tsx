@@ -2,6 +2,7 @@ import { useLanguage } from '../../languageContext'
 import type { RepositoryProject } from '../../data/repositoryProjects'
 import Link from '../Link'
 import ProjectFacts from '../ProjectFacts'
+import LoadingImage from '../LoadingImage'
 
 type RepositoryCasePropsType = {
   project: RepositoryProject
@@ -22,7 +23,9 @@ const RepositoryCase = ({ project }: RepositoryCasePropsType) => {
           aria-label={`${previewLabel} · ${project.title}${t(" (новая вкладка)", " (new tab)")}`}
           className="group relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-muted/20 bg-canvas p-3 transition-colors hover:border-mint/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
         >
-          <img src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" className="h-full w-full object-contain" />
+          <div className="relative h-full w-full overflow-hidden rounded-lg">
+            <LoadingImage src={project.image} alt={project.imageAlt} loading="lazy" className="relative h-full w-full object-contain" />
+          </div>
           <span aria-hidden="true" className="absolute top-2 right-2 grid size-7 place-items-center rounded-full bg-surface text-sm text-ink group-hover:bg-mint group-hover:text-deep">↗</span>
         </Link>
       </div>
