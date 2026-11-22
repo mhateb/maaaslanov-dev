@@ -37,4 +37,5 @@ npm run preview
 ```
 
 ## Git
-- Коммиты должны писать в формает "feat: text" "fix: text" 
+- Коммиты должны писать в формает "feat: text" "fix: text" в зависимости от функционала
+- Ветки должны называться в формате new-section-projects

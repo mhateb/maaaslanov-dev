@@ -6,9 +6,12 @@ import { getPageSeo, pages, siteName } from '../src/seo.ts'
 
 const { SITE_URL } = { ...loadEnv('production', process.cwd(), 'SITE_'), ...process.env }
 const siteUrl = SITE_URL ? new URL(SITE_URL) : null
-if (siteUrl && (!['https:', 'http:'].includes(siteUrl.protocol) || siteUrl.pathname !== '/' || siteUrl.search || siteUrl.hash || siteUrl.username || siteUrl.password)) {
-  throw new Error('SITE_URL must be an HTTP(S) origin such as https://example.com')
+if (siteUrl && (!['https:', 'http:'].includes(siteUrl.protocol) || siteUrl.search || siteUrl.hash || siteUrl.username || siteUrl.password)) {
+  throw new Error('SITE_URL must be an HTTP(S) site URL such as https://example.com')
 }
+
+if (siteUrl && !siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/'
+const publicUrl = path => new URL(path.replace(/^\//, ''), siteUrl).href
 
 const template = await readFile('dist/index.html', 'utf8')
 const temporary = await mkdtemp(resolve('node_modules/.prerender-'))
@@ -21,14 +24,14 @@ function escape(value) {
 
 function metadata(path) {
   const page = getPageSeo(path)
-  const address = page.path && siteUrl ? new URL(page.path, siteUrl).href : null
-  const image = siteUrl ? new URL('/social-preview.jpg', siteUrl).href : '/social-preview.jpg'
+  const address = page.path && siteUrl ? publicUrl(page.path) : null
+  const image = siteUrl ? publicUrl('social-preview.jpg') : '/social-preview.jpg'
   const meta = (key, value, property = false) => `<meta ${property ? 'property' : 'name'}="${key}" content="${escape(value)}">`
   return [
     `<title>${escape(page.title)}</title>`,
     meta('description', page.description),
     page.noindex ? meta('robots', 'noindex') : '',
-    siteUrl ? meta('site-origin', siteUrl.origin) : '',
+    siteUrl ? meta('site-origin', siteUrl.href) : '',
     address && !page.noindex ? `<link rel="canonical" href="${escape(address)}">` : '',
     meta('og:type', 'website', true),
     meta('og:locale', 'ru_RU', true),
@@ -65,9 +68,9 @@ try {
   let robots = 'User-agent: *\nAllow: /\n'
   if (siteUrl) {
     const urls = Object.keys(pages).filter(path => !pages[path].noindex)
-      .map(path => `  <url><loc>${escape(new URL(path, siteUrl).href)}</loc></url>`)
+      .map(path => `  <url><loc>${escape(publicUrl(path))}</loc></url>`)
     await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`)
-    robots += `Sitemap: ${new URL('/sitemap.xml', siteUrl).href}\n`
+    robots += `Sitemap: ${publicUrl('sitemap.xml')}\n`
   }
   await writeFile('dist/robots.txt', robots)
 } finally {

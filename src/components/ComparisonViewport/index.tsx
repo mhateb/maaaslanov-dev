@@ -1,3 +1,4 @@
+import { useLanguage } from '../../languageContext'
 import { useId, useRef, type CSSProperties, type PointerEvent } from 'react'
 import AfterPanel from '../AfterPanel'
 import BeforePanel from '../BeforePanel'
@@ -10,6 +11,7 @@ type ComparisonViewportPropsType = {
 }
 
 const ComparisonViewport = ({ className = '', large = false }: ComparisonViewportPropsType) => {
+  const { t } = useLanguage()
   const { position, setPosition, previewId, compactControls } = useComparison()
   const dialog = useRef<HTMLDialogElement>(null)
   const viewport = useRef<HTMLDivElement>(null)
@@ -40,8 +42,8 @@ const ComparisonViewport = ({ className = '', large = false }: ComparisonViewpor
           type="range"
           className="absolute top-1/2 z-[1] size-[var(--knob-size)] -translate-x-1/2 -translate-y-1/2 cursor-ew-resize touch-none rounded-full opacity-0 left-[clamp(calc(var(--knob-size)/2),var(--split),calc(100%-var(--knob-size)/2))] focus-visible:[&+span]:outline-[3px] focus-visible:[&+span]:outline-offset-3 focus-visible:[&+span]:outline-deep"
           aria-controls={previewId}
-          aria-label="Граница сравнения до и после"
-          aria-valuetext={`${position}% до, ${100 - position}% после`}
+          aria-label={t("Граница сравнения до и после", "Before and after comparison divider")}
+          aria-valuetext={`${position}${t("% до, ", "% before, ")}${100 - position}${t("% после", "% after")}`}
           value={position}
           onKeyDown={(event) => {
             if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
@@ -65,10 +67,10 @@ const ComparisonViewport = ({ className = '', large = false }: ComparisonViewpor
       {compactControls && <ComparisonControls />}
       <dialog ref={dialog} aria-labelledby={headingId} className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl bg-mint p-6 text-deep [&::backdrop]:bg-[rgb(17_29_37/75%)]">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id={headingId} className="text-2xl font-medium">Предпросмотр экрана</h2>
-          <form method="dialog"><button className="inline-flex min-h-10.5 shrink-0 items-center justify-center rounded-full bg-deep px-4.5 py-3 text-sm leading-[1.3] font-medium text-ink transition-[filter,opacity] duration-150 hover:underline hover:underline-offset-[3px] hover:brightness-[1.12]">Закрыть</button></form>
+          <h2 id={headingId} className="text-2xl font-medium">{t("Предпросмотр экрана", "Screen preview")}</h2>
+          <form method="dialog"><button className="inline-flex min-h-10.5 shrink-0 items-center justify-center rounded-full bg-deep px-4.5 py-3 text-sm leading-[1.3] font-medium text-ink transition-[filter,opacity] duration-150 hover:underline hover:underline-offset-[3px] hover:brightness-[1.12]">{t("Закрыть", "Close")}</button></form>
         </div>
-        <p className="mt-4">Выберите готовые блоки и проверьте, как выглядит экран. Предпросмотр обновляется прямо в админке.</p>
+        <p className="mt-4">{t("Выберите готовые блоки и проверьте, как выглядит экран. Предпросмотр обновляется прямо в админке.", "Choose reusable blocks and see how the screen looks. The preview updates directly in the admin panel.")}</p>
       </dialog>
     </>
   )

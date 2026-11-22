@@ -1,10 +1,11 @@
+import { useLanguage } from '../../languageContext'
 type ProjectFactsPropsType = {
   facts: readonly string[]
 }
 
-const factLabels = ['Задача', 'Мой вклад', 'Результат']
-
 const ProjectFacts = ({ facts }: ProjectFactsPropsType) => {
+  const { t } = useLanguage()
+  const factLabels = [t("Задача", "Challenge"), t("Мой вклад", "My contribution"), t("Результат", "Outcome")]
   return (
     <dl className="grid gap-6 leading-[1.3]">
       {facts.map((fact, index) => (
