@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+# A squash merge leaves HEAD unchanged and will be committed separately.
+[ "${1:-0}" = 0 ] || exit 0
+
+case "$(git branch --show-current)" in
+  main|master) ;;
+  *) exit 0 ;;
+esac
+
+runner=$(git config --local --get project.agentRunner) || exit 0
+[ -n "$runner" ] || exit 0
+
+repo_root=$(git rev-parse --show-toplevel)
+skill_path="$repo_root/.agents/skills/bump-app-version/SKILL.md"
+commit_hash=$(git rev-parse --verify HEAD)
+base_hash=$(git rev-parse --verify ORIG_HEAD)
+[ "$base_hash" != "$commit_hash" ] || exit 0
+
+"$runner" apply "$skill_path" "$commit_hash" "$base_hash"
