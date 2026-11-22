@@ -35,3 +35,6 @@ npm run typecheck
 npm run build
 npm run preview
 ```
+
+## Git
+- Коммиты должны писать в формает "feat: text" "fix: text" 
